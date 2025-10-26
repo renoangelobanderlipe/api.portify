@@ -1,0 +1,16 @@
+backend:
+  - "app/**"
+  - "bootstrap/**"
+  - "config/**"
+  - "database/**"
+  - "resources/**"
+  - "routes/**"
+  - "storage/**"
+  - "tests/**"
+  - "artisan"
+  - "composer.json"
+  - "composer.lock"
+
+devops:
+  - ".github/**"
+  - "README.md"
