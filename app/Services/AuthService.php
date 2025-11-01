@@ -2,27 +2,24 @@
 
 namespace App\Services;
 
-use App\Models\User;
 use App\DTO\Auth\LoginDTO;
-use Illuminate\Support\Str;
 use App\DTO\Auth\RegisterDTO;
-use Illuminate\Http\Response;
-use Illuminate\Http\JsonResponse;
 use App\DTO\Auth\UpdateAccountDTO;
-use Illuminate\Support\Facades\DB;
+use App\Models\User;
 use Illuminate\Auth\Events\Lockout;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 
 class AuthService
 {
     /**
      * Handle user login.
-     *
-     * @param LoginDTO $loginDTO
-     * @return array
      */
     public function login(LoginDTO $loginDTO): array
     {
@@ -42,7 +39,6 @@ class AuthService
         ];
     }
 
-
     /**
      * Handle user logout.
      */
@@ -56,8 +52,6 @@ class AuthService
 
     /**
      * List the authenticated user's details.
-     *
-     * @return JsonResponse
      */
     public function list(): JsonResponse
     {
@@ -81,9 +75,6 @@ class AuthService
 
     /**
      * Register a new user.
-     *
-     * @param RegisterDTO $registerDTO
-     * @return Response
      */
     public function register(RegisterDTO $registerDTO): Response
     {
@@ -124,7 +115,6 @@ class AuthService
             $updateAccountDTO->avatar = null;
         }
 
-
         $data = collect($updateAccountDTO)->except('avatar')->toArray();
 
         $user->update($data);
@@ -157,7 +147,6 @@ class AuthService
 
         return response()->noContent();
     }
-
 
     /**
      * Attempt to authenticate with rate-limit protection.

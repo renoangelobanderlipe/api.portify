@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Services\AuthService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Http\Requests\Auth\UpdateAccountRequest;
+use App\Services\AuthService;
 
 class AuthController extends Controller
 {
@@ -40,7 +40,7 @@ class AuthController extends Controller
      */
     public function update(UpdateAccountRequest $request, string $id)
     {
-        return $this->authService->updateAccount($request->toDTO(), (int)$id);
+        return $this->authService->updateAccount($request->toDTO(), (int) $id);
     }
 
     /**
@@ -48,6 +48,6 @@ class AuthController extends Controller
      */
     public function destroy(string $id)
     {
-        return $this->authService->destroy((int)$id);
+        return $this->authService->destroy((int) $id);
     }
 }
