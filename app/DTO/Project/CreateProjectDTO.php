@@ -2,24 +2,15 @@
 
 namespace App\DTO\Project;
 
-use Illuminate\Support\Carbon;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Carbon;
 
 class CreateProjectDTO
 {
     /**
-     * @param string $title
-     * @param string|null $description
-     * @param Carbon|null $startDate
-     * @param Carbon|null $endDate
-     * @param string|null $url
-     * @param string|null $repository_link
-     * @param string|null $project_type
-     * @param array|null $tags
-     * @param string|UploadedFile|null $thumbnail
-     * @param array|null $other_image // array of UploadedFile|string (for existing URLs)
-     * @param bool|null $is_featured
-     * @param array|null $metadata
+     * @param  Carbon|null  $startDate
+     * @param  Carbon|null  $endDate
+     * @param  array|null  $other_image  // array of UploadedFile|string (for existing URLs)
      */
     public function __construct(
         public readonly string $title,
@@ -40,7 +31,7 @@ class CreateProjectDTO
     {
         // Normalize other_image: ensure it's always an array if present
         $otherImage = $data['other_image'] ?? null;
-        if ($otherImage !== null && !is_array($otherImage)) {
+        if ($otherImage !== null && ! is_array($otherImage)) {
             $otherImage = [$otherImage];
         }
 
@@ -59,7 +50,6 @@ class CreateProjectDTO
             metadata: $data['metadata'] ?? null,
         );
     }
-
 
     public function toArray(): array
     {

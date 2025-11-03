@@ -2,10 +2,9 @@
 
 namespace App\Actions;
 
-use Illuminate\Support\Str;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class UploadFileAction
 {

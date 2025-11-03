@@ -3,9 +3,9 @@
 namespace App\Services;
 
 use App\Actions\UploadFileAction;
+use App\DTO\Project\CreateProjectDTO;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Auth;
-use App\DTO\Project\CreateProjectDTO;
 
 class ProjectService
 {
@@ -67,10 +67,9 @@ class ProjectService
         return response()->noContent();
     }
 
-
     private function uploadSingleFile(?UploadedFile $file, string $directory): ?string
     {
-        if (!$file instanceof UploadedFile) {
+        if (! $file instanceof UploadedFile) {
             return null;
         }
 
@@ -83,8 +82,8 @@ class ProjectService
     private function uploadMultipleFiles(array $files, string $directory): array
     {
         return collect($files)
-            ->filter(fn($file) => $file instanceof UploadedFile)
-            ->map(fn($file) => $this->uploadFileAction->execute(
+            ->filter(fn ($file) => $file instanceof UploadedFile)
+            ->map(fn ($file) => $this->uploadFileAction->execute(
                 file: $file,
                 directory: $directory
             ))

@@ -33,6 +33,11 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    public function projects(): HasMany
+    {
+        return $this->hasMany(Project::class);
+    }
+
     /**
      * Get the attributes that should be cast.
      *
@@ -44,10 +49,5 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
-    }
-
-    public function projects(): HasMany
-    {
-        return $this->hasMany(Project::class);
     }
 }
