@@ -41,10 +41,10 @@ class UpdateProjectRequest extends FormRequest
                 'nullable',
                 function ($attribute, $value, $fail) {
                     if ($value instanceof \Illuminate\Http\UploadedFile) {
-                        if (!$value->isValid()) {
+                        if (! $value->isValid()) {
                             $fail("The {$attribute} file is invalid.");
                         }
-                        if (!in_array($value->extension(), ['jpeg', 'png', 'jpg', 'gif', 'svg'])) {
+                        if (! in_array($value->extension(), ['jpeg', 'png', 'jpg', 'gif', 'svg'])) {
                             $fail("The {$attribute} must be a jpeg, png, jpg, gif, or svg.");
                         }
                         if ($value->getSize() > 10 * 1024 * 1024) {

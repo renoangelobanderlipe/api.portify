@@ -3,10 +3,10 @@
 namespace App\Services;
 
 use App\Actions\UploadFileAction;
-use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Auth;
 use App\DTO\Project\CreateProjectDTO;
 use App\DTO\Project\UpdateProjectDTO;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Auth;
 
 class ProjectService
 {
@@ -64,7 +64,6 @@ class ProjectService
     {
         $project = Auth::user()->projects()->findOrFail($id);
         $payload = [];
-
 
         if ($updateProjectDTO->thumbnail) {
             if ($updateProjectDTO->thumbnail instanceof UploadedFile) {
@@ -136,8 +135,8 @@ class ProjectService
     private function uploadMultipleFiles(array $files, string $directory): array
     {
         return collect($files)
-            ->filter(fn($file) => $file instanceof UploadedFile)
-            ->map(fn($file) => $this->uploadFileAction->execute(
+            ->filter(fn ($file) => $file instanceof UploadedFile)
+            ->map(fn ($file) => $this->uploadFileAction->execute(
                 file: $file,
                 directory: $directory
             ))

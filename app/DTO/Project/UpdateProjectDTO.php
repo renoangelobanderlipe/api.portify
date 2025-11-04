@@ -29,6 +29,7 @@ class UpdateProjectDTO
         if ($otherImage !== null && ! is_array($otherImage)) {
             $otherImage = [$otherImage];
         }
+
         return new self(
             title: $data['title'],
             description: $data['description'] ?? null,

@@ -2,8 +2,8 @@
 
 namespace App\DTO\Project;
 
-use Illuminate\Support\Carbon;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Carbon;
 
 class CreateProjectDTO
 {

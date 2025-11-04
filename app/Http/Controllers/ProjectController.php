@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Project;
-use App\Services\ProjectService;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
+use App\Models\Project;
+use App\Services\ProjectService;
 
 class ProjectController extends Controller
 {
@@ -58,6 +58,7 @@ class ProjectController extends Controller
     {
         return $this->projectService->update($project->id, $request->toDTO());
     }
+
     /**
      * Remove the specified resource from storage.
      */
