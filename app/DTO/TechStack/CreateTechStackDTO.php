@@ -8,7 +8,7 @@ class CreateTechStackDTO
         public string $name,
         public ?string $placeholder,
         public string $icon_tag,
-        public ?string $icon_size = '54',
+        public ?string $icon_size,
         public ?string $provider,
         public string $category,
     ) {}

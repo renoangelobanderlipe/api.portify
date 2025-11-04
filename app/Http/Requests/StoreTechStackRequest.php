@@ -32,7 +32,6 @@ class StoreTechStackRequest extends FormRequest
         ];
     }
 
-
     public function toDTO(): CreateTechStackDTO
     {
         return CreateTechStackDTO::fromArray($this->validated());
