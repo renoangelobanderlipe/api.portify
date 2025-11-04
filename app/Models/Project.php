@@ -15,7 +15,7 @@ class Project extends Model
 
     protected $casts = [
         'tags' => 'array',
-        'other_image' => 'array',
+        'other_image_url' => 'array',
         'metadata' => 'array',
     ];
 

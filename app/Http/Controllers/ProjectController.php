@@ -56,7 +56,7 @@ class ProjectController extends Controller
      */
     public function update(UpdateProjectRequest $request, Project $project)
     {
-        //
+        return $this->projectService->update($project->id, $request->toDTO());
     }
 
     /**

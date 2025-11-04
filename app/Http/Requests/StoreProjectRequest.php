@@ -22,6 +22,7 @@ class StoreProjectRequest extends FormRequest
      */
     public function rules(): array
     {
+
         return [
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
@@ -31,7 +32,7 @@ class StoreProjectRequest extends FormRequest
             'project_type' => 'nullable|string|max:255',
 
             'url' => 'nullable|url|max:2048',
-            'repository_link' => 'nullable|url|max:2048',
+            'repository' => 'nullable|url|max:2048',
 
             'tags' => 'nullable|string',
             'tags.*' => 'string|max:50',
@@ -41,7 +42,7 @@ class StoreProjectRequest extends FormRequest
             'other_image' => ['nullable', 'array'],
             'other_image.*' => ['image', 'mimes:jpeg,png,jpg,gif,svg', 'max:10240'],
 
-            'is_featured' => 'boolean',
+            'published_at' => 'boolean',
             'metadata' => 'nullable|array',
         ];
     }
