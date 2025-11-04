@@ -27,8 +27,8 @@ return new class extends Migration
             $table->string('thumbnail_url')->nullable();
             $table->jsonb('other_image_url')->nullable();
 
+            $table->boolean('published_at')->default(false);
             $table->jsonb('metadata')->nullable();
-            $table->boolean('is_featured')->default(false);
             $table->timestamps();
 
             $table->index(['user_id', 'title', 'project_type']);

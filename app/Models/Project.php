@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Project extends Model
 {
@@ -15,7 +15,7 @@ class Project extends Model
 
     protected $casts = [
         'tags' => 'array',
-        'other_image' => 'array',
+        'other_image_url' => 'array',
         'metadata' => 'array',
     ];
 

@@ -2,16 +2,11 @@
 
 namespace App\DTO\Project;
 
-use Illuminate\Support\Carbon;
+use Carbon\Carbon;
 use Illuminate\Http\UploadedFile;
 
-class CreateProjectDTO
+class UpdateProjectDTO
 {
-    /**
-     * @param  Carbon|null  $startDate
-     * @param  Carbon|null  $endDate
-     * @param  array|null  $other_image  // array of UploadedFile|string (for existing URLs)
-     */
     public function __construct(
         public readonly string $title,
         public readonly ?string $description,
@@ -30,11 +25,10 @@ class CreateProjectDTO
     public static function fromArray(array $data): self
     {
         // Normalize other_image: ensure it's always an array if present
-        $otherImage = $data['other_image'] ?? null;
+        $otherImage = $data['other_images'] ?? [];
         if ($otherImage !== null && ! is_array($otherImage)) {
             $otherImage = [$otherImage];
         }
-
         return new self(
             title: $data['title'],
             description: $data['description'] ?? null,
@@ -59,9 +53,9 @@ class CreateProjectDTO
             'start_date' => $this->start_date?->toDateString(),
             'end_date' => $this->end_date?->toDateString(),
             'url' => $this->url,
-            'repository_link' => $this->repository_link,
+            'repository' => $this->repository_link,
             'project_type' => $this->project_type,
-            'tags' => $this->tags,
+            'tags' => $this->tags ? json_encode($this->tags) : null,
             'thumbnail' => $this->thumbnail,
             'other_image_url' => $this->other_image_url,
             'published_at' => $this->published_at,

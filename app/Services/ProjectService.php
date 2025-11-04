@@ -3,9 +3,10 @@
 namespace App\Services;
 
 use App\Actions\UploadFileAction;
-use App\DTO\Project\CreateProjectDTO;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Auth;
+use App\DTO\Project\CreateProjectDTO;
+use App\DTO\Project\UpdateProjectDTO;
 
 class ProjectService
 {
@@ -17,7 +18,7 @@ class ProjectService
     {
         $projects = Auth::user()->projects();
 
-        $projects->paginate(5);
+        $projects->orderBy('created_at', 'desc')->paginate(5);
 
         return $projects->get();
     }
@@ -41,15 +42,15 @@ class ProjectService
             );
         }
 
-        if (is_array($createProjectDTO->other_image)) {
-            $payload['other_image_url'] = json_encode($this->uploadMultipleFiles(
-                files: $createProjectDTO->other_image,
+        if (is_array($createProjectDTO->other_image_url)) {
+            $payload['other_image_url'] = $this->uploadMultipleFiles(
+                files: $createProjectDTO->other_image_url,
                 directory: 'projects/other_images'
-            ));
+            );
         }
 
         $baseData = collect(get_object_vars($createProjectDTO))
-            ->except(['thumbnail', 'other_image'])
+            ->except(['thumbnail', 'other_image_url'])
             ->toArray();
 
         $data = array_merge($baseData, $payload);
@@ -57,6 +58,59 @@ class ProjectService
         $project = Auth::user()->projects()->create($data);
 
         return $project->toArray();
+    }
+
+    public function update(int $id, UpdateProjectDTO $updateProjectDTO)
+    {
+        $project = Auth::user()->projects()->findOrFail($id);
+        $payload = [];
+
+
+        if ($updateProjectDTO->thumbnail) {
+            if ($updateProjectDTO->thumbnail instanceof UploadedFile) {
+                $payload['thumbnail_url'] = $this->uploadSingleFile(
+                    file: $updateProjectDTO->thumbnail,
+                    directory: 'projects/thumbnails'
+                );
+            } else {
+                $payload['thumbnail_url'] = $updateProjectDTO->thumbnail;
+            }
+        } else {
+            $payload['thumbnail_url'] = null;
+        }
+
+        if ($updateProjectDTO->other_image_url) {
+            $otherImages = [];
+            if ($updateProjectDTO->other_image_url) {
+                foreach ($updateProjectDTO->other_image_url as $image) {
+                    if ($image instanceof UploadedFile) {
+                        $uploadedImage = $this->uploadSingleFile(
+                            file: $image,
+                            directory: 'projects/other_images'
+                        );
+                        if ($uploadedImage) {
+                            $otherImages[] = $uploadedImage;
+                        }
+                    } else {
+                        $otherImages[] = $image;
+                    }
+                }
+            }
+
+            $payload['other_image_url'] = $otherImages;
+        } else {
+            $payload['other_image_url'] = null;
+        }
+
+        $baseData = collect(get_object_vars($updateProjectDTO))
+            ->except(['thumbnail', 'other_image_url'])
+            ->toArray();
+
+        $data = array_merge($baseData, $payload);
+
+        $project->update($data);
+
+        return response()->noContent();
     }
 
     public function delete(int $id)
@@ -82,8 +136,8 @@ class ProjectService
     private function uploadMultipleFiles(array $files, string $directory): array
     {
         return collect($files)
-            ->filter(fn ($file) => $file instanceof UploadedFile)
-            ->map(fn ($file) => $this->uploadFileAction->execute(
+            ->filter(fn($file) => $file instanceof UploadedFile)
+            ->map(fn($file) => $this->uploadFileAction->execute(
                 file: $file,
                 directory: $directory
             ))
