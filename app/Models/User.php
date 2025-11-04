@@ -38,6 +38,11 @@ class User extends Authenticatable
         return $this->hasMany(Project::class);
     }
 
+    public function techStacks(): HasMany
+    {
+        return $this->hasMany(TechStack::class);
+    }
+
     /**
      * Get the attributes that should be cast.
      *
