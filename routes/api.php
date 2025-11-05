@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ApiKeyController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
@@ -55,4 +56,13 @@ Route::controller(TechStackController::class)
         Route::get('/', 'index');
         Route::post('/', 'store');
         Route::delete('{techStack}', 'destroy');
+    });
+
+Route::controller(ApiKeyController::class)
+    ->middleware('auth:sanctum')
+    ->prefix('api-keys')
+    ->group(function () {
+        Route::get('/', 'index');
+        Route::post('/', 'store');
+        Route::delete('{id}', 'destroy');
     });
