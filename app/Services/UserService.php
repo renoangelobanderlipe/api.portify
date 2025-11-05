@@ -2,23 +2,21 @@
 
 namespace App\Services;
 
-use App\Models\User;
 use App\DTO\User\UpdateUserDTO;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\PersonalAccessToken;
 
 class UserService
 {
-
     public function index()
     {
         return PersonalAccessToken::where('tokenable_id', Auth::id())
             ->where('tokenable_type', User::class)
             ->where('name', config('sanctum.token_prefix') . '_token')
             ->orderBy('created_at', 'desc')
-            ->paginate(5)
-        ;
+            ->paginate(5);
     }
 
     public function update(UpdateUserDTO $updateUserDTO)
