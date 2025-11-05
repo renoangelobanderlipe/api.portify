@@ -23,8 +23,8 @@ class StoreApiKeyRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "name" => "required|string|max:255|unique:personal_access_tokens,name",
-            "expires_at" => "nullable|integer",
+            'name' => 'required|string|max:255|unique:personal_access_tokens,name',
+            'expires_at' => 'nullable|integer',
         ];
     }
 

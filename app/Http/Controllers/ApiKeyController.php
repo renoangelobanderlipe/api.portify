@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ApiKey;
-use App\Services\ApiKeyService;
 use App\Http\Requests\StoreApiKeyRequest;
+use App\Services\ApiKeyService;
 
 class ApiKeyController extends Controller
 {

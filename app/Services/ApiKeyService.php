@@ -2,9 +2,8 @@
 
 namespace App\Services;
 
-use Carbon\Carbon;
-use GuzzleHttp\Promise\Create;
 use App\DTO\ApiKey\CreateApiKeyDTO;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\PersonalAccessToken;
 
