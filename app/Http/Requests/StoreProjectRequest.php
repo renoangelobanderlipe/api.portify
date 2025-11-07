@@ -29,10 +29,10 @@ class StoreProjectRequest extends FormRequest
 
             'start_date' => 'nullable|date',
             'end_date' => 'nullable|date|after_or_equal:start_date',
-            'project_type' => 'nullable|string|max:255',
+            'project_type' => 'required|string|max:255',
 
             'url' => 'nullable|url|max:2048',
-            'repository' => 'nullable|url|max:2048',
+            'repository' => 'required|url|max:2048',
 
             'tags' => 'nullable|string',
             'tags.*' => 'string|max:50',

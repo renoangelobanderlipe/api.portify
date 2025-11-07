@@ -2,18 +2,18 @@
 
 namespace App\Services;
 
-use App\DTO\Auth\LoginDTO;
-use App\DTO\Auth\RegisterDTO;
-use App\DTO\Auth\UpdateAccountDTO;
 use App\Models\User;
-use Illuminate\Auth\Events\Lockout;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\RateLimiter;
-use Illuminate\Support\Facades\Storage;
+use App\DTO\Auth\LoginDTO;
 use Illuminate\Support\Str;
+use App\DTO\Auth\RegisterDTO;
+use Illuminate\Http\Response;
+use Illuminate\Http\JsonResponse;
+use App\DTO\Auth\UpdateAccountDTO;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Auth\Events\Lockout;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Validation\ValidationException;
 
 class AuthService
@@ -25,8 +25,10 @@ class AuthService
     {
         $this->authenticate($loginDTO->toArray());
 
-        $user = Auth::user();
+        $user = User::where('email', $loginDTO->email)->first();
+
         $token = $user->createToken(config('sanctum.token_prefix') . '_token')->plainTextToken;
+
 
         return [
             'access_token' => $token,
@@ -44,8 +46,7 @@ class AuthService
      */
     public function logout(): Response
     {
-        $user = Auth::user();
-        $user->tokens()->delete();
+        Auth::user()->currentAccessToken()->delete();
 
         return response()->noContent();
     }

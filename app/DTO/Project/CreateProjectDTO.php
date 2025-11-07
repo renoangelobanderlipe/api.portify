@@ -2,8 +2,8 @@
 
 namespace App\DTO\Project;
 
-use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Carbon;
+use Illuminate\Http\UploadedFile;
 
 class CreateProjectDTO
 {
@@ -18,8 +18,8 @@ class CreateProjectDTO
         public readonly ?Carbon $start_date,
         public readonly ?Carbon $end_date,
         public readonly ?string $url,
-        public readonly ?string $repository_link,
-        public readonly ?string $project_type,
+        public readonly string $repository_link,
+        public readonly string $project_type,
         public readonly ?array $tags,
         public readonly string|UploadedFile|null $thumbnail,
         public readonly ?array $other_image_url,
@@ -41,8 +41,8 @@ class CreateProjectDTO
             start_date: isset($data['start_date']) ? Carbon::parse($data['start_date']) : null,
             end_date: isset($data['end_date']) ? Carbon::parse($data['end_date']) : null,
             url: $data['url'] ?? null,
-            repository_link: $data['repository'] ?? null,
-            project_type: $data['project_type'] ?? null,
+            repository_link: $data['repository'],
+            project_type: $data['project_type'],
             tags: json_decode($data['tags'], true) ?? null,
             thumbnail: $data['thumbnail'] ?? null,
             other_image_url: $otherImage,

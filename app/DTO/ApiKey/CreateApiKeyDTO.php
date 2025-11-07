@@ -2,18 +2,22 @@
 
 namespace App\DTO\ApiKey;
 
+use Carbon\Carbon;
+
 class CreateApiKeyDTO
 {
     public function __construct(
         public readonly string $name,
-        public readonly ?int $expiresAt,
+        public readonly ?Carbon $expires_at,
     ) {}
 
     public static function fromArray(array $data): self
     {
+        $expiresAt = Carbon::now()->addDays($data['expires_at'] ?? 0);
+
         return new self(
             name: $data['name'],
-            expiresAt: $data['expires_at'] ?? null,
+            expires_at: $expiresAt,
         );
     }
 
@@ -21,7 +25,7 @@ class CreateApiKeyDTO
     {
         return [
             'name' => $this->name,
-            'expires_at' => $this->expiresAt,
+            'expires_at' => $this->expires_at,
         ];
     }
 }
