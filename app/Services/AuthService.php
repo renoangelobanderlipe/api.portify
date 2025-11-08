@@ -2,18 +2,18 @@
 
 namespace App\Services;
 
-use App\Models\User;
 use App\DTO\Auth\LoginDTO;
-use Illuminate\Support\Str;
 use App\DTO\Auth\RegisterDTO;
-use Illuminate\Http\Response;
-use Illuminate\Http\JsonResponse;
 use App\DTO\Auth\UpdateAccountDTO;
-use Illuminate\Support\Facades\DB;
+use App\Models\User;
 use Illuminate\Auth\Events\Lockout;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 
 class AuthService
@@ -28,7 +28,6 @@ class AuthService
         $user = User::where('email', $loginDTO->email)->first();
 
         $token = $user->createToken(config('sanctum.token_prefix') . '_token')->plainTextToken;
-
 
         return [
             'access_token' => $token,
@@ -59,19 +58,7 @@ class AuthService
         $user = Auth::user()->load('roles:id,name');
         $user->roles->makeHidden('pivot');
 
-        return response()->json([
-            'id' => $user->id,
-            'first_name' => $user->first_name,
-            'middle_name' => $user->middle_name,
-            'last_name' => $user->last_name,
-            'suffix' => $user->suffix,
-            'email' => $user->email,
-            'avatar' => $user->avatar,
-            'contact_number' => $user->contact_number,
-            'headline' => $user->headline,
-            'bio' => $user->bio,
-            'roles' => $user->roles->pluck('name'),
-        ]);
+        return response()->json($user->toArray(), 200);
     }
 
     /**
