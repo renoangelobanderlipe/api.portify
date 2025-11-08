@@ -2,8 +2,9 @@
 
 namespace App\Services;
 
+use App\Actions\GenerateToken;
 use App\DTO\ApiKey\CreateApiKeyDTO;
-use Carbon\Carbon;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\PersonalAccessToken;
 
@@ -22,13 +23,13 @@ class ApiKeyService
 
     public function create(CreateApiKeyDTO $createApiKeyDTO)
     {
-        $user = Auth::user();
+        $user = User::find(Auth::id());
 
-        $token = $user->createToken(
-            $createApiKeyDTO->name,
-            ['*'],
-            Carbon::now()->addDays($createApiKeyDTO->expiresAt)
-        )->plainTextToken;
+        $token = app(GenerateToken::class)->execute(
+            id: $user->id,
+            name: $createApiKeyDTO->name,
+            expiresAt: $createApiKeyDTO->expires_at
+        );
 
         return response()->json([
             'token' => $token,

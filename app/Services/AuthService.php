@@ -25,7 +25,8 @@ class AuthService
     {
         $this->authenticate($loginDTO->toArray());
 
-        $user = Auth::user();
+        $user = User::where('email', $loginDTO->email)->first();
+
         $token = $user->createToken(config('sanctum.token_prefix') . '_token')->plainTextToken;
 
         return [
@@ -44,8 +45,7 @@ class AuthService
      */
     public function logout(): Response
     {
-        $user = Auth::user();
-        $user->tokens()->delete();
+        Auth::user()->currentAccessToken()->delete();
 
         return response()->noContent();
     }
@@ -58,19 +58,7 @@ class AuthService
         $user = Auth::user()->load('roles:id,name');
         $user->roles->makeHidden('pivot');
 
-        return response()->json([
-            'id' => $user->id,
-            'first_name' => $user->first_name,
-            'middle_name' => $user->middle_name,
-            'last_name' => $user->last_name,
-            'suffix' => $user->suffix,
-            'email' => $user->email,
-            'avatar' => $user->avatar,
-            'contact_number' => $user->contact_number,
-            'headline' => $user->headline,
-            'bio' => $user->bio,
-            'roles' => $user->roles->pluck('name'),
-        ]);
+        return response()->json($user->toArray(), 200);
     }
 
     /**

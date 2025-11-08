@@ -39,11 +39,13 @@ class UserService
 
     public function destroy(string $id)
     {
-        $personalAccessToken = PersonalAccessToken::find($id)
+        $token = PersonalAccessToken::where('id', $id)
             ->where('tokenable_id', Auth::id())
-            ->where('tokenable_type', User::class)
+            ->where('tokenable_type', \App\Models\User::class)
             ->firstOrFail();
 
-        $personalAccessToken->delete();
+        $token->delete();
+
+        return response()->noContent();
     }
 }
