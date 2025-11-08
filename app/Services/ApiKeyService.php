@@ -2,10 +2,9 @@
 
 namespace App\Services;
 
-use Carbon\Carbon;
-use App\Models\User;
 use App\Actions\GenerateToken;
 use App\DTO\ApiKey\CreateApiKeyDTO;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\PersonalAccessToken;
 

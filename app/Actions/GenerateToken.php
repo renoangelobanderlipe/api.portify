@@ -2,9 +2,9 @@
 
 namespace App\Actions;
 
-use Exception;
-use Carbon\Carbon;
 use App\Models\User;
+use Carbon\Carbon;
+use Exception;
 use Illuminate\Support\Facades\Auth;
 
 class GenerateToken
@@ -35,8 +35,8 @@ class GenerateToken
         $userRoles = $authUser->getRoleNames()->first();
 
         if (
-            !$authUser ||
-            !$authUser->tokenCan('create-tokens') ||
+            ! $authUser ||
+            ! $authUser->tokenCan('create-tokens') ||
             $userRoles !== 'admin'
         ) {
             throw new Exception('Unauthorized');
