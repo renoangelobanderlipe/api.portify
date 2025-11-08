@@ -2,6 +2,7 @@
 
 namespace App\Actions;
 
+use Exception;
 use Carbon\Carbon;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -38,7 +39,7 @@ class GenerateToken
             !$authUser->tokenCan('create-tokens') ||
             $userRoles !== 'admin'
         ) {
-            throw new \Exception('Unauthorized');
+            throw new Exception('Unauthorized');
         }
 
         return true;
